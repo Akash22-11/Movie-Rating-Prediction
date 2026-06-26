@@ -1,8 +1,3 @@
-"""
-Task 2 — Movie Rating Prediction with Python
-CodSoft Data Science Internship
-"""
-
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -18,15 +13,9 @@ from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-# ─────────────────────────────────────────────
-# 1. LOAD DATA
-# ─────────────────────────────────────────────
 print("=" * 55)
 print("  TASK 2 — MOVIE RATING PREDICTION")
 print("=" * 55)
-
-import os
-
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,7 +24,7 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 OUTPUT_DIR = os.path.join(BASE_DIR, "output")
 MODEL_DIR = os.path.join(BASE_DIR, "models")
 
-# Create folders if they don't exist
+
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
@@ -47,15 +36,11 @@ print(f"    Target  : vote_average (ratings 0-10)")
 print(f"    Rating range : {df['vote_average'].min():.1f} - {df['vote_average'].max():.1f}")
 print(f"    Mean rating  : {df['vote_average'].mean():.2f}\n")
 
-# ─────────────────────────────────────────────
-# 2. EDA
-# ─────────────────────────────────────────────
 print("[2] Exploratory Data Analysis")
 
 fig, axes = plt.subplots(2, 3, figsize=(18, 10))
 fig.suptitle('Movie Rating Prediction - EDA', fontsize=16, fontweight='bold')
 
-# Rating distribution
 axes[0,0].hist(df['vote_average'], bins=30, color='#3498db', edgecolor='white')
 axes[0,0].set_title('Rating Distribution')
 axes[0,0].set_xlabel('Rating (vote_average)')
@@ -64,14 +49,12 @@ axes[0,0].axvline(df['vote_average'].mean(), color='red',
                   linestyle='--', label=f"Mean: {df['vote_average'].mean():.2f}")
 axes[0,0].legend()
 
-# Vote count vs rating
 axes[0,1].scatter(df['vote_count'], df['vote_average'], alpha=0.3,
                   color='#9b59b6', s=10)
 axes[0,1].set_title('Vote Count vs Rating')
 axes[0,1].set_xlabel('Vote Count')
 axes[0,1].set_ylabel('Rating')
 
-# Budget vs rating
 df_b = df[df['budget'] > 0]
 axes[0,2].scatter(df_b['budget']/1e6, df_b['vote_average'], alpha=0.3,
                   color='#e67e22', s=10)
@@ -79,7 +62,6 @@ axes[0,2].set_title('Budget (M$) vs Rating')
 axes[0,2].set_xlabel('Budget (Millions $)')
 axes[0,2].set_ylabel('Rating')
 
-# Runtime vs rating
 df_rt = df[df['runtime'] > 0]
 axes[1,0].scatter(df_rt['runtime'], df_rt['vote_average'], alpha=0.3,
                   color='#2ecc71', s=10)
@@ -87,14 +69,12 @@ axes[1,0].set_title('Runtime vs Rating')
 axes[1,0].set_xlabel('Runtime (minutes)')
 axes[1,0].set_ylabel('Rating')
 
-# Popularity vs rating
 axes[1,1].scatter(df['popularity'], df['vote_average'], alpha=0.3,
                   color='#e74c3c', s=10)
 axes[1,1].set_title('Popularity vs Rating')
 axes[1,1].set_xlabel('Popularity Score')
 axes[1,1].set_ylabel('Rating')
 
-# Top languages avg rating
 lang_ratings = (df.groupby('original_language')['vote_average']
                   .mean().sort_values(ascending=False).head(10))
 lang_ratings.plot(kind='bar', ax=axes[1,2], color='#1abc9c', edgecolor='white')
