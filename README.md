@@ -73,7 +73,7 @@ Movie_rating_prediction/
 
 ### 📉 Model Evaluation
 
-![Movie Evaluation](./plots/movie_evaluation.png)
+![Movie Evaluation](main/plots/movie_evaluation.png)
 
 ---
 
