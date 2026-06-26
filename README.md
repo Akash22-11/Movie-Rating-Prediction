@@ -69,7 +69,7 @@ Movie_rating_prediction/
 
 ### 📊 Exploratory Data Analysis
 
-![Movie EDA](./plots/movie_eda.png)
+![Movie EDA](main/plots/movie_eda.png)
 
 ### 📉 Model Evaluation
 
