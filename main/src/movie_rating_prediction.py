@@ -99,7 +99,6 @@ print("[3] Feature Engineering")
 
 data = df.copy()
 
-# --- Genres: space-separated strings, one-hot encode ---
 GENRE_LABELS = ['Action','Adventure','Animation','Comedy','Crime',
                 'Documentary','Drama','Family','Fantasy','History',
                 'Horror','Music','Mystery','Romance','Science',
@@ -112,7 +111,6 @@ for g in GENRE_LABELS:
 genre_cols = [f'genre_{g}' for g in GENRE_LABELS]
 print(f"    Genres one-hot encoded : {len(GENRE_LABELS)} genre columns")
 
-# --- Director avg rating ---
 dir_avg = data.groupby('director')['vote_average'].mean()
 data['director_avg_rating'] = (data['director']
                                 .map(dir_avg)
