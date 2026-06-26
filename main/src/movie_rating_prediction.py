@@ -126,30 +126,23 @@ def count_cast(val):
 
 data['cast_count'] = data['cast'].apply(count_cast)
 
-# --- Year & decade ---
 data['release_date'] = pd.to_datetime(data['release_date'], errors='coerce')
 data['release_year'] = data['release_date'].dt.year.fillna(0).astype(int)
 data['decade']       = (data['release_year'] // 10 * 10).astype(int)
 
-# --- Log-transform skewed numerics ---
 data['log_budget']     = np.log1p(data['budget'])
 data['log_revenue']    = np.log1p(data['revenue'])
 data['log_popularity'] = np.log1p(data['popularity'])
 data['log_vote_count'] = np.log1p(data['vote_count'])
 
-# --- Language flag ---
 data['is_english'] = (data['original_language'] == 'en').astype(int)
 
-# --- Runtime fill ---
 data['runtime'] = data['runtime'].fillna(data['runtime'].median())
 
 print(f"    Log transforms : budget, revenue, popularity, vote_count")
 print(f"    Release years  : {data[data['release_year']>0]['release_year'].min()} "
       f"- {data['release_year'].max()}\n")
 
-# ─────────────────────────────────────────────
-# 4. FEATURE SELECTION
-# ─────────────────────────────────────────────
 print("[4] Selecting Features")
 
 FEATURES = (
@@ -166,9 +159,6 @@ y = data[TARGET]
 print(f"    Total features : {len(FEATURES)}")
 print(f"    Usable samples : {len(X)}\n")
 
-# ─────────────────────────────────────────────
-# 5. TRAIN / TEST SPLIT + SCALING
-# ─────────────────────────────────────────────
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
@@ -178,9 +168,6 @@ X_test_sc   = scaler.transform(X_test)
 
 print(f"[5] Split -> Train: {len(X_train)} | Test: {len(X_test)}\n")
 
-# ─────────────────────────────────────────────
-# 6. TRAIN MODELS
-# ─────────────────────────────────────────────
 print("[6] Training Models")
 print("-" * 50)
 
@@ -217,9 +204,6 @@ for name, model in models.items():
     print(f"    R2   : {r2:.4f}")
     print()
 
-# ─────────────────────────────────────────────
-# 7. BEST MODEL
-# ─────────────────────────────────────────────
 best_name = max(results, key=lambda k: results[k]['r2'])
 best = results[best_name]
 print(f"[7] Best Model : {best_name}")
@@ -227,13 +211,9 @@ print(f"    MAE  : {best['mae']:.4f}")
 print(f"    RMSE : {best['rmse']:.4f}")
 print(f"    R2   : {best['r2']:.4f}\n")
 
-# ─────────────────────────────────────────────
-# 8. EVALUATION PLOTS
-# ─────────────────────────────────────────────
 fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 fig.suptitle(f'Model Evaluation - {best_name}', fontsize=14, fontweight='bold')
 
-# Actual vs Predicted
 axes[0,0].scatter(y_test, best['y_pred'], alpha=0.4, color='#3498db', s=20)
 mn, mx = y_test.min(), y_test.max()
 axes[0,0].plot([mn,mx],[mn,mx],'r--', linewidth=2, label='Perfect Prediction')
@@ -242,7 +222,6 @@ axes[0,0].set_xlabel('Actual Rating')
 axes[0,0].set_ylabel('Predicted Rating')
 axes[0,0].legend()
 
-# Residuals
 residuals = y_test.values - best['y_pred']
 axes[0,1].hist(residuals, bins=40, color='#e74c3c', edgecolor='white')
 axes[0,1].axvline(0, color='black', linestyle='--')
@@ -250,7 +229,6 @@ axes[0,1].set_title('Residual Distribution')
 axes[0,1].set_xlabel('Residual (Actual - Predicted)')
 axes[0,1].set_ylabel('Count')
 
-# Model comparison R2
 names  = list(results.keys())
 r2s    = [results[m]['r2'] for m in names]
 colors = ['#2ecc71' if m == best_name else '#95a5a6' for m in names]
@@ -264,7 +242,6 @@ for bar, val in zip(bars, r2s):
                 bar.get_height() + 0.01,
                 f'{val:.3f}', ha='center', fontsize=10, fontweight='bold')
 
-# Feature importance (Random Forest)
 rf   = results['Random Forest']['model']
 fimp = pd.Series(rf.feature_importances_, index=FEATURES)
 fimp.sort_values(ascending=False).head(15).sort_values().plot(
@@ -279,9 +256,7 @@ plt.savefig(os.path.join(OUTPUT_DIR, "movie_evaluation.png"),
 plt.close()
 print("    Evaluation plots saved.\n")
 
-# ─────────────────────────────────────────────
-# 9. SAMPLE PREDICTIONS
-# ─────────────────────────────────────────────
+
 print("[8] Sample Predictions (10 movies)")
 print("-" * 60)
 sample_idx = X_test.head(10).index
@@ -290,6 +265,7 @@ s['Actual']    = y_test.head(10).values
 s['Predicted'] = np.round(best['y_pred'][:10], 2)
 s['Error']     = np.abs(s['Actual'] - s['Predicted']).round(2)
 print(s[['title','release_year','Actual','Predicted','Error']].to_string(index=False))
+
 
 print("\n" + "=" * 55)
 print("  DONE - All plots saved.")
