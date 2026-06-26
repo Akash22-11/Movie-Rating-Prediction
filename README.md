@@ -116,6 +116,4 @@ python src/movie_rating_prediction.py
 
 **Akash Sarkar**
 
-*CodSoft Data Science Internship — Task 2*
-
 ⭐ If you found this project useful, consider giving it a star!
