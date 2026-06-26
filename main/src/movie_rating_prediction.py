@@ -117,7 +117,6 @@ data['director_avg_rating'] = (data['director']
                                 .fillna(data['vote_average'].mean()))
 print(f"    Director avg rating feature : {data['director'].nunique()} unique directors")
 
-# --- Cast count ---
 def count_cast(val):
     try:
         items = __import__('ast').literal_eval(val)
