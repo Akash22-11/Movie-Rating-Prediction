@@ -95,9 +95,6 @@ plt.savefig(os.path.join(OUTPUT_DIR, "movie_evaluation.png"),
 plt.close()
 print("    EDA plots saved.\n")
 
-# ─────────────────────────────────────────────
-# 3. FEATURE ENGINEERING
-# ─────────────────────────────────────────────
 print("[3] Feature Engineering")
 
 data = df.copy()
