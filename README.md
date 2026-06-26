@@ -67,13 +67,13 @@ Movie_rating_prediction/
 
 ## 📈 Visualizations
 
-### Exploratory Data Analysis
+### 📊 Exploratory Data Analysis
 
-![EDA](plots/movie_eda.png)
+![Movie EDA](./plots/movie_eda.png)
 
-### Model Evaluation
+### 📉 Model Evaluation
 
-![Evaluation](plots/movie_evaluation.png)
+![Movie Evaluation](./plots/movie_evaluation.png)
 
 ---
 
