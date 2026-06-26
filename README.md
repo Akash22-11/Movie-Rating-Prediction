@@ -111,9 +111,24 @@ python src/movie_rating_prediction.py
 - ✔️ Accurate Movie Rating Prediction
 
 ---
+## 👨‍💻 Developer
 
-## 👨‍💻 Author
+<div align="center">
 
-**Akash Sarkar**
+<img src="https://github.com/Akash22-11.png" width="100" style="border-radius:50%;"/>
+
+### Akash
+
+**Engineering Student • Data Science Enthusiast • Builder**
+
+<img src="https://img.shields.io/badge/GitHub-Akash22--11-7C3AED?style=for-the-badge&logo=github&logoColor=white&labelColor=0D0B1F"/>
+
+</div>
+
+<br/>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%">
+
+<div align="center">
 
 ⭐ If you found this project useful, consider giving it a star!
